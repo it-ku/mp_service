@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package mp.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/it-ku/mp_service/api/mp/v1;v1";
+
+service MiniAppService {
+  // 通过code获取openid并登录
+  rpc LoginByCode (CodeLoginReq) returns (LoginReply) {
+    option(google.api.http) = {
+      post: "/v1/wx/loginByCode",
+      body: "*"
+    };
+  };
+  // 通过code获取用户手机号
+  rpc GetPhoneNumber (GetPhoneNumberReq) returns (GetPhoneNumberReply) {
+    option(google.api.http) = {
+      post: "/v1/wx/getPhoneNumber",
+      body: "*"
+    };
+  };
+  // RPC
+  rpc ListMiniApp(ListAppReq) returns (ListAppReply){}
+  rpc CreateMiniApp(CreateAppReq) returns(MiniApp) {}
+  rpc GetMiniApp(IdReq) returns(MiniApp) {}
+  rpc UpdateMiniApp(UpdateAppReq) returns(google.protobuf.Empty) {}
+  rpc DeleteMiniApp(IdReq) returns(google.protobuf.Empty) {}
+}
+
+
+message IdReq {
+  uint32 id = 1;
+}
+
+message CodeLoginReq {
+  string appId = 1;
+  string code = 2;
+}
+
+message LoginReply {
+  string token = 1;
+}
+
+message GetPhoneNumberReq {
+  string appId = 1;
+  string code = 2;
+}
+message GetPhoneNumberReply {
+  bool success = 1;
+}
+
+
+// 小程序应用列表
+message MiniApp {
+  uint32 id = 1;
+  string name = 2;
+  string originalId = 3;
+  string appId = 4;
+  string appSecret = 5;
+  string platform = 6;
+  bool refreshToken = 7;
+}
+
+message ListAppReq {
+  uint32 current = 1;
+  uint32 pageSize = 2;
+  string name = 3;
+  string platform = 4;
+}
+
+message ListAppReply {
+  int32 total = 1;
+  repeated MiniApp items = 2;
+}
+
+message CreateAppReq {
+  string name = 1;
+  string originalId = 2;
+  string appId = 3;
+  string appSecret = 4;
+  string platform = 5;
+  string type = 6;
+  bool refreshToken = 7;
+}
+
+message UpdateAppReq {
+  uint32 id = 1;
+  string name = 2;
+  string originalId = 3;
+  string appId = 4;
+  string appSecret = 5;
+  string platform = 6;
+  string type = 7;
+  bool refreshToken = 8;
+}
+
+message UpdateAppReply {
+  uint32  id = 1;
+}

@@ -1,0 +1,74 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: MiniAppService API
+    version: 0.0.1
+paths:
+    /v1/wx/getPhoneNumber:
+        post:
+            tags:
+                - MiniAppService
+            description: 通过code获取用户手机号
+            operationId: MiniAppService_GetPhoneNumber
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mp.v1.GetPhoneNumberReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mp.v1.GetPhoneNumberReply'
+    /v1/wx/loginByCode:
+        post:
+            tags:
+                - MiniAppService
+            description: 通过code获取openid并登录
+            operationId: MiniAppService_LoginByCode
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/mp.v1.CodeLoginReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/mp.v1.LoginReply'
+components:
+    schemas:
+        mp.v1.CodeLoginReq:
+            type: object
+            properties:
+                appId:
+                    type: string
+                code:
+                    type: string
+        mp.v1.GetPhoneNumberReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        mp.v1.GetPhoneNumberReq:
+            type: object
+            properties:
+                appId:
+                    type: string
+                code:
+                    type: string
+        mp.v1.LoginReply:
+            type: object
+            properties:
+                token:
+                    type: string
+tags:
+    - name: MiniAppService
